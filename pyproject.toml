@@ -22,9 +22,11 @@ classifiers = [
 dependencies = [
     "amazon-braket-sdk>=1.35.1",
     "ipykernel>=7.0.1",
+    "matplotlib>=3.6.7",
     "numpy",
     "openfermion>=1.5.1",
     "pennylane>=0.34.0",
+    "python-dotenv>=1.1.1",
     "scipy>=1.5.2",
     # Sympy 1.13 produces different results for Simon's algorithm
     "sympy<1.13",
