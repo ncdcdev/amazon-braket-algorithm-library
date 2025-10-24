@@ -1,3 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amazon-braket-algorithm-library"
+dynamic = ["version"]
+description = "An open source library of quantum computing algorithms implemented on Amazon Braket"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache License 2.0" }
+authors = [
+    { name = "Amazon Web Services" }
+]
+keywords = ["Amazon", "AWS", "Quantum"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+]
+dependencies = [
+    "amazon-braket-sdk>=1.35.1",
+    "ipykernel>=7.0.1",
+    "numpy",
+    "openfermion>=1.5.1",
+    "pennylane>=0.34.0",
+    "scipy>=1.5.2",
+    # Sympy 1.13 produces different results for Simon's algorithm
+    "sympy<1.13",
+]
+
+[project.urls]
+Homepage = "https://github.com/amazon-braket/amazon-braket-algorithm-library"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+    "ruff",
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinxcontrib-apidoc",
+    "tox",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "braket._algos._version.__version__" }
+
+[tool.setuptools.packages]
+find = { where = ["src"], exclude = ["test*"], namespaces = true }
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+xfail_strict = true
+addopts = "--verbose -n auto --durations=0 --durations-min=1"
+testpaths = ["test/unit_tests"]
+
 [tool.ruff]
 target-version = "py310"
 line-length = 100
