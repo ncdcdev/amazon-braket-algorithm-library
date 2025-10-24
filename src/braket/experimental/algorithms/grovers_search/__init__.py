@@ -14,4 +14,5 @@
 from braket.experimental.algorithms.grovers_search.grovers_search import (  # noqa: F401
     build_oracle,
     grovers_search,
+    grovers_search_step_by_step,
 )

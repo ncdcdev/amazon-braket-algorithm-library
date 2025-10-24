@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 from braket.circuits import Circuit, circuit
 
@@ -24,6 +24,58 @@ def grovers_search(
         grover_circ.add(amplification)
     grover_circ.probability(range(n_qubits))
     return grover_circ
+
+
+def grovers_search_step_by_step(
+    oracle: Circuit, n_qubits: int, n_reps: int = 1, decompose_ccnot: bool = False
+) -> List[Circuit]:
+    """Generate a list of intermediate circuits showing each step of Grover's algorithm.
+
+    This function builds the same circuit as grovers_search, but returns a list of circuits
+    representing the state at each major step: initial superposition, after each oracle
+    application, and after each amplification.
+
+    Args:
+        oracle (Circuit): Oracle circuit for a solution.
+        n_qubits (int): Number of data qubits.
+        n_reps (int): Number of repititions for amplification. Defaults to 1.
+        decompose_ccnot (bool): To decompose CCNOT (Toffoli) gate in the circuit.
+
+    Returns:
+        List[Circuit]: List of circuits representing each step. Each circuit includes
+                       a state_vector() result type for simulation.
+
+    Example:
+        >>> oracle = build_oracle("11")
+        >>> circuits = grovers_search_step_by_step(oracle, n_qubits=2, n_reps=1)
+        >>> # circuits[0]: Initial H gates
+        >>> # circuits[1]: After oracle
+        >>> # circuits[2]: After first amplification
+        >>> # Run each circuit to see the state evolution
+    """
+    circuits = []
+
+    # Step 0: Initial superposition
+    circ = Circuit().h(range(n_qubits))
+    circ.state_vector()
+    circuits.append(circ.copy())
+
+    # For each repetition
+    for rep in range(n_reps):
+        # Step: After oracle application
+        circ.add(oracle)
+        circ_after_oracle = circ.copy()
+        circ_after_oracle.state_vector()
+        circuits.append(circ_after_oracle)
+
+        # Step: After amplification
+        amplification = amplify(n_qubits, decompose_ccnot)
+        circ.add(amplification)
+        circ_after_amp = circ.copy()
+        circ_after_amp.state_vector()
+        circuits.append(circ_after_amp)
+
+    return circuits
 
 
 def build_oracle(solution: str, decompose_ccnot: bool = False) -> Circuit:
