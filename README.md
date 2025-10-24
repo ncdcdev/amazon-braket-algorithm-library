@@ -1,6 +1,12 @@
 # Amazon Braket Algorithm Library
 [![Build](https://github.com/amazon-braket/amazon-braket-algorithm-library/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/amazon-braket/amazon-braket-algorithm-library/actions/workflows/python-package.yml)
 
+> [!IMPORTANT]
+> このリポジトリは[Amazon Braket Algorithm Library](https://github.com/amazon-braket/amazon-braket-algorithm-library)をNCDC環境用にforkしたものです。オリジナルのリポジトリから以下の改変を行っています：
+> - uvを使用したパッケージ管理への移行
+> - READMEの日本語化
+> - その他NCDC環境に合わせたカスタマイズ
+
 Amazon Braket Algorithm Libraryは、代表的な量子アルゴリズムと実験的なワークロードの実装をすぐに実行できるサンプルノートブックとして提供するライブラリです。
 
 ---
